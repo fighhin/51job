@@ -1,0 +1,23 @@
+#coding=utf-8
+import urllib
+import re
+
+def getHtml(url):
+    page=urllib.urlopen(url)
+    html=page.read()
+    #print html
+    return html
+
+def getVideo(html):
+    reg=r'<a.*?href="(.*?\.mp4)" target'
+    videore=re.compile(reg)
+    videlist=re.findall(videore,html)
+    x=0
+    for video in videlist:
+        urllib.urlretrieve(video,'%s.mp4'%x)
+        x+=1
+
+
+
+html=getHtml('http://www.budejie.com/video/')
+print getVideo(html)
